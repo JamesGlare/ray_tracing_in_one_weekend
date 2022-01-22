@@ -2,8 +2,7 @@
 #define COLOR_H
 #include <iostream>
 #include "vec3.hpp"
-
-using color = vec3; // RGC color
+#include "hittable.hpp"
 
 void write_color(std::ostream &out, color pixel_color, int samples_per_pixel)
 {
@@ -13,10 +12,10 @@ void write_color(std::ostream &out, color pixel_color, int samples_per_pixel)
 
     // divide the color by the number of samples
     auto scale = 1.0 / samples_per_pixel;
-    r *= scale;
-    g *= scale;
-    b *= scale;
-    
+    r = sqrt(r * scale);
+    g = sqrt(g * scale);
+    b = sqrt(b * scale);
+
     // Write the translated [0, 255] value of each color component
     out << static_cast<int>(255.999 * clamp(r, 0.0, 0.999)) << ' '
         << static_cast<int>(255.999 * clamp(g, 0.0, 0.999)) << ' '
