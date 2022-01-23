@@ -30,7 +30,7 @@ color ray_color(const ray &r, const hittable &world, int depth)
     vec3 unit_direction = unit_vector(r.direction());
     auto t = 0.5 * (unit_direction.y() + 1.0);
     // the below interpolation in the y-direction creates the blue sky
-    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(1.0, 0.1, 0.6);
 }
 
 int main()
@@ -44,14 +44,14 @@ int main()
 
     // World - many spheres
     hittable_list world;
-    auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
-    auto material_center = make_shared<lambertian>(color(0.7, 0.3, 0.3));
-    auto material_left   = make_shared<metal>(color(0.8, 0.8, 0.8));
-    auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2));
+    auto material_ground = make_shared<lambertian>(color(0.3, 0.8, 0.0));
+    auto material_center = make_shared<lambertian>(color(0.4, 0.7, 0.8));
+    auto material_left   = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
+    auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.9);
     world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
     world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
-    world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
+    world.add(make_shared<sphere>(point3(-1.1,    0.5, -1.0),   0.2, material_left));
+    world.add(make_shared<sphere>(point3( 1.0,    0.3, -1.0),   0.2, material_right));
 
     // Camera
     camera cam;
