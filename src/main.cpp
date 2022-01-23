@@ -46,13 +46,16 @@ int main()
     hittable_list world;
     auto material_ground = make_shared<lambertian>(color(0.3, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.4, 0.7, 0.8));
-    auto material_left   = make_shared<metal>(color(0.8, 0.8, 0.8), 0.3);
-    auto material_right  = make_shared<metal>(color(0.8, 0.6, 0.2), 0.9);
-    world.add(make_shared<sphere>(point3( 0.0, -100.5, -1.0), 100.0, material_ground));
-    world.add(make_shared<sphere>(point3( 0.0,    0.0, -1.0),   0.5, material_center));
-    world.add(make_shared<sphere>(point3(-1.1,    0.5, -1.0),   0.2, material_left));
-    world.add(make_shared<sphere>(point3( 1.0,    0.3, -1.0),   0.2, material_right));
-
+    auto material_left = make_shared<metal>(color(0.8, 0.8, 0.8), 0.1);
+    auto material_right = make_shared<dielectric>(1.7);
+    auto material_front = make_shared<dielectric>(1.3);
+    
+    world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_ground));
+    world.add(make_shared<sphere>(point3(0.0, 0.0, -1.0), 0.5, material_center));
+    world.add(make_shared<sphere>(point3(-1.1, 0.5, -1.0), 0.2, material_left));
+    world.add(make_shared<sphere>(point3(1.0, 0.3, -1.0), 0.2, material_right));
+    world.add(make_shared<sphere>(point3(0.0, 0.4, -0.5), 0.2, material_front));
+    
     // Camera
     camera cam;
 
@@ -66,7 +69,8 @@ int main()
         for (int i = 0; i < image_width; ++i)
         {
             color pixel_color(0, 0, 0);
-            for(int s =0; s < samples_per_pixel; ++s){
+            for (int s = 0; s < samples_per_pixel; ++s)
+            {
                 auto u = (i + random_double()) / (image_width - 1);
                 auto v = (j + random_double()) / (image_height - 1);
                 ray r = cam.get_ray(u, v);
