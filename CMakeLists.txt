@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.10.2)
 project("ray_tracing")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 include_directories(
                     "${PROJECT_SOURCE_DIR}/inc"
